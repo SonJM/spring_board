@@ -11,11 +11,11 @@ spring:
     generate-ddl: true
     properties:
       hibernate:
-        ddl-auto: update
+        ddl-auto: validate
         format_sql: true
         show_sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
 
   mvc:
     pathmatch:

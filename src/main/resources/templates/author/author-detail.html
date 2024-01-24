@@ -9,13 +9,18 @@
         #update-form{
             display: none;
         }
+
+        .pull-right{
+            float:left;
+            margin-right: 10px;
+        }
     </style>
 </head>
 <body>
     <div th:replace="header :: headerFragment"></div>
     <div class="container">
         <div class="page-header">
-            <h1>회원 상세보기</h1>
+            <h1>회원 가입</h1>
         </div>
         <table class="table">
             <tr>
@@ -35,21 +40,49 @@
                 <td th:text="${author.password}"></td>
             </tr>
             <tr>
+                <th class="table-info">작성글수 </th>
+                <td class="table-info" th:text="${author.count}"></td>
+            </tr>
+            <tr>
+                <th>권한 </th>
+                <td th:text="${author.role}"></td>
+            </tr>
+            <tr>
                 <th class="table-info">가입일시 </th>
                 <td class="table-info" th:text="${author.createdTime}"></td>
             </tr>
         </table>
-        <div class="pull-right">
-            <button type="button" class="btn btn-primary" onclick="modify()">수정</button>
-            <a th:href="@{|/members/delete/${author.id}|}"><button type="button" class="btn btn-danger">삭제</button></a>
+        <div>
+            <div class="pull-right">
+                <button type="submit" class="btn btn-primary" onclick="modify()">수정</button>
+            </div>
+            <div class="pull-right">
+                <a th:href="@{|/author/delete/${author.id}|}"><button type="button" class="btn btn-danger">삭제</button></a>
+            </div>
         </div>
+        <br />
+        <br />
         <div id = "update-form">
-            <form action="/members/update" method="post">
-                <p>id :  <input type="text" name="id" th:value="${author.id}" readonly></p>
-                <p>이름 :  <input type="text" name="name" th:value="${author.name}"></p>
-                <p>이메일: <input type="text" name="email" th:value="${author.email}" readonly></p>
-                <p>비밀번호 <input type="text" name="password" th:value="${author.password}"></p>
-                <p><input type="submit" value="수정완료"></p>
+            <form action="/author/update" method="post">
+                <div class="form-group">
+                    <label for="id">ID</label>
+                    <input type="text" id="id" name="id" class="form-control" th:value="${author.id}" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="name">이름</label>
+                    <input type="text" id="name" name="name" class="form-control" th:value="${author.name}">
+                </div>
+                <div class="form-group">
+                    <label for="email">이메일</label>
+                    <input type="text" id="email" name="email" class="form-control" th:value="${author.email}" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="password">비밀번호</label>
+                    <input type="text" id="password" name="password" class="form-control" th:value="${author.password}">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary mt-3">수정완료</button>
+                </div>
             </form>
         </div>
     </div>

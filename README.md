@@ -35,3 +35,27 @@
     - 회원관리: 리스트 출력
       - 각 목록별로 "상세보기" 버튼 
     - 게시글
+
+1. 회원가입완료 => 회원목록조회화면으로 redirect
+2. 회원수정기능 개발 + 회원수정완료시 상세 조회 화면 redirect
+3. 회원삭제기능 개발 => 회원목록조회로 redirect
+
+
+- POST Entity
+  - id
+  - title(length 50)
+  - contents(length 3000)
+  - 생성시간
+  - 수정시간
+- 글 목록 조회 dto
+  - id
+  - title
+- 글 상세보기 dto
+  - id
+  - title
+  - contents
+  - 생성시간
+- 글 작성 dto
+  - title
+  - contents
+- 글 삭제

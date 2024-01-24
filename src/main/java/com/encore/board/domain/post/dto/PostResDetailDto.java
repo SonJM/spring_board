@@ -1,4 +1,4 @@
-package com.encore.board.domain.author.dto;
+package com.encore.board.domain.post.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
@@ -10,14 +10,10 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 @AllArgsConstructor
-public class AuthorDetailResDto {
+public class PostResDetailDto {
     private Long id;
-    private String name;
-    private String email;
-    private String password;
-    private String role;
-    private Integer count;
-
+    private String title;
+    private String contents;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDateTime createdTime;
 }
