@@ -13,12 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Transactional
 @Slf4j
 public class PostService {
     private final AuthorRepository authorRepository;
@@ -31,7 +29,8 @@ public class PostService {
 
     public List<PostResListDto> getPostList() {
 //        List<Post> postList = postRepository.findAll(Sort.by(Sort.Direction.DESC, "createdTime"));
-        List<Post> postList = postRepository.findAllByOrderByCreatedTimeDesc();
+//        List<Post> postList = postRepository.findAllByOrderByCreatedTimeDesc();
+        List<Post> postList = postRepository.findAllFetchJoin();
         List<PostResListDto> postResListDtos = new ArrayList<>();
         for(Post post : postList){
             PostResListDto postResListDto = PostResListDto.builder()
@@ -62,6 +61,8 @@ public class PostService {
                 .contents(postReqCreateDto.getContents())
                 .author(author)
                 .build();
+        // 더티채킹 테스트
+        author.updateAuthor("dirty checking test", "1234");
         postRepository.save(post);
     }
 

@@ -62,7 +62,7 @@ public class AuthorService {
         return authorListResDtos;
     }
 
-    public AuthorDetailResDto findById(Long id) throws EntityNotFoundException{
+    public AuthorDetailResDto findAuthorDetail(Long id) throws EntityNotFoundException{
         Author author = authorRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         String role = "";
         if(author.getRole() == null || author.getRole().equals(Role.USER)){
@@ -91,5 +91,9 @@ public class AuthorService {
         // 명시적으로 save를 하지 않더라도, jpa의 영속성컨텍스트를 통해,
         // 객체에 변경이 감지(더티 체킹)되면, 트랜잭션이 완료되는 시점에 save 동작.
         authorRepository.save(author);
+    }
+
+    public Author findById(Long id) {
+        return authorRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 }

@@ -35,6 +35,7 @@ public class Author {
 
     // author객체가 post객체를 필요로 할 때 선언
     // mappedBy를 연관관계의 주인이라 부르고, fk를 관리하는 변수명을 명시
+    // 1:1관계일 경우 @OneToOne도 존재
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @Setter // cascade.persist를 위한 테스트
     List<Post> posts;
@@ -50,5 +51,10 @@ public class Author {
 
     public void authorizeUser() {
         this.role = Role.USER;
+    }
+
+    public void updateAuthor(String email, String password) {
+        this.email = email;
+        this.password = password;
     }
 }

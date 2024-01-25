@@ -1,5 +1,7 @@
 package com.encore.board.domain.author.controller;
 
+import com.encore.board.domain.author.domain.Author;
+import com.encore.board.domain.author.dto.AuthorDetailResDto;
 import com.encore.board.domain.author.dto.AuthorSaveReqDto;
 import com.encore.board.domain.author.dto.AuthorUpdateReqDto;
 import com.encore.board.domain.author.service.AuthorService;
@@ -9,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class AuthorController {
@@ -36,7 +39,7 @@ public class AuthorController {
     @GetMapping("/author/detail/{id}")
     public String authorDetail(@PathVariable Long id, Model model)
     {
-        model.addAttribute("author", authorService.findById(id));
+        model.addAttribute("author", authorService.findAuthorDetail(id));
         return "author/author-detail";
     }
 
@@ -50,5 +53,19 @@ public class AuthorController {
     public String authorDelete(@PathVariable Long id){
         authorService.delete(id);
         return "redirect:/author/list";
+    }
+
+    @GetMapping("/author/{id}/circle/entity")
+    @ResponseBody
+    // 연관관계가 있는 Author엔티티를 json으로 직렬화를 하게 될 경우
+    // 순환참조 이슈 발생하므로, dto 사용필요
+    public Author circleEntityTest(@PathVariable Long id){
+        return authorService.findById(id);
+    }
+
+    @GetMapping("/author/{id}/circle/dto")
+    @ResponseBody
+    public AuthorDetailResDto circleDtoTest(@PathVariable Long id){
+        return authorService.findAuthorDetail(id);
     }
 }
