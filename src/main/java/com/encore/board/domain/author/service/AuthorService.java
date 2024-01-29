@@ -7,6 +7,7 @@ import com.encore.board.domain.author.dto.AuthorListResDto;
 import com.encore.board.domain.author.dto.AuthorSaveReqDto;
 import com.encore.board.domain.author.dto.AuthorUpdateReqDto;
 import com.encore.board.domain.author.repository.AuthorRepository;
+import com.encore.board.domain.post.repository.PostRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,11 +21,18 @@ import java.util.List;
 @Service
 @Transactional
 public class AuthorService {
+    private final PostRepository postRepository;
     private final AuthorRepository authorRepository;
     @Autowired
-    public AuthorService(AuthorRepository authorRepository) {this.authorRepository = authorRepository;}
+    public AuthorService(AuthorRepository authorRepository,
+                         PostRepository postRepository) {this.authorRepository = authorRepository;
+        this.postRepository = postRepository;
+    }
 
     public void save(AuthorSaveReqDto authorSaveReqDto){
+        if(authorRepository.findByEmail(authorSaveReqDto.getEmail()).isPresent()){
+            throw new IllegalArgumentException("이메일이 중복입니다");
+        }
         Role role = null;
         if(authorSaveReqDto.getRole() == null || authorSaveReqDto.getRole().equals("user")){
             role = Role.USER;
@@ -45,7 +53,12 @@ public class AuthorService {
                 .build();
         posts.add(post);
         author.setPosts(posts);*/
-        authorRepository.save(author);
+        try{
+            authorRepository.save(author);
+        } catch(Exception e){
+            throw e;
+        }
+
     }
     public List<AuthorListResDto> authorList(){
         List<Author> authorList = authorRepository.findAll();
@@ -93,7 +106,8 @@ public class AuthorService {
         authorRepository.save(author);
     }
 
-    public Author findById(Long id) {
-        return authorRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+    public Author findById(Long id) throws EntityNotFoundException{
+        return authorRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("author not found"));
     }
+
 }

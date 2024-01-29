@@ -24,9 +24,18 @@
             </div>
             <div class="form-group">
                 <label for="email">이메일: </label>
-                <input name="email" class="form-control" type="text" id="email">
+                <input name="email" class="form-control" type="text" id="email" required>
             </div>
-            <button class="btn btn-primary" type="submit" value="가입완료">가입완료</button>
+            <div class="form-group">
+                <label>예약 여부</label>
+                <label for="appointment">Yes</label><input type="radio" id="appointment" name="appointment" value="Y" />
+                <label>No</label><input type="radio" name="appointment" value="N" checked>
+                <label>예약시간</label>
+                <input type="datetime-local" id="appointmentTime" name="appointmentTime" />
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary" type="submit" value="가입완료">등록하기</button>
+            </div>
         </form>
     </div>
 </div>
